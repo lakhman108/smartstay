@@ -9,6 +9,7 @@ public class SmartStayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SmartStayApplication.class, args);
 		System.out.println("SmartStay Application Start!");
+		System.out.println("START Application Start!");
 	}
 
 }
