@@ -1,20 +1,19 @@
 package com.lucky.smartstay.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
+
+
 @Data
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "property_details")
+@AllArgsConstructor
 public class PropertyDetails {
-
     @Id
     @Column(name = "propertyDetails_id")
 
@@ -37,4 +36,7 @@ public class PropertyDetails {
         maid,
         laundry
     }
+    @JsonIgnore
+    @OneToOne(mappedBy = "propertyDetails")
+    private Property property;
 }

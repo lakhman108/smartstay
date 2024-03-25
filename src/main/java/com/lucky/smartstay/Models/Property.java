@@ -1,7 +1,11 @@
 package com.lucky.smartstay.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -12,6 +16,7 @@ import lombok.*;
 @Table(name = "property")
 public class Property {
     @Id
+            @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
 
@@ -25,14 +30,11 @@ public class Property {
 
     String status;
 
-    @ManyToOne()
-    @JoinColumn(name = "user_id")
-
+    @ManyToOne
     User user;
 
-    @OneToOne
-
-    PropertyDetails propertyDetails;
-
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private PropertyDetails propertyDetails;
 
 }

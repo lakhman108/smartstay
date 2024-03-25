@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping("register")
     public User register(@RequestBody User user) {
-        System.out.println("fucking called");
+
         return service.save(user);
     }
 
