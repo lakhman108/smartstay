@@ -8,6 +8,8 @@ import com.lucky.smartstay.Repo.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PropertyDetailsService {
 
@@ -17,11 +19,34 @@ public class PropertyDetailsService {
     @Autowired
     private PropertyRepo repo;
 
-    public PropertyDetails addPropertyDetails(PropertyDetails propertyDetails,int propertyId) {
-        Property property=new Property();
-        property.setPropertyDetails(propertyDetails);
-        return propertyDetailsRepository.save(propertyDetails);
+    @Autowired
+    private PropertyRepo propertyRepo;
+
+
+    public PropertyDetails showpropertydetails(int propertyId){
+
+        Optional<Property> property=propertyRepo.findById(propertyId);
+
+        return property.get().getPropertyDetails();
+    }
+    public PropertyDetails addPropertyDetails(PropertyDetails propertyDetails, int propertyId) {
+        Optional<Property> property = propertyRepo.findById(propertyId);
+
+        if(property.isPresent()) {
+            property.get().setPropertyDetails(propertyDetails);
+            Property updatedProperty = propertyRepo.save(property.get());
+
+            return updatedProperty.getPropertyDetails();
+        }
+        return new PropertyDetails();
     }
 
-    // Add other propertyDetails-related methods as needed
+
+    public PropertyDetails deleteProprety(int propertyId){
+
+        Optional<Property> property=propertyRepo.findById(propertyId);
+    property.get().setPropertyDetails(null);
+        return property.get().getPropertyDetails();
+    }
+
 }

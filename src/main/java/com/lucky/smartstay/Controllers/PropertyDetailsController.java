@@ -14,9 +14,21 @@ public class PropertyDetailsController {
     @Autowired
     private PropertyDetailsService propertyDetailsService;
 
-    @PostMapping({"{propertyId}"})
+    @GetMapping({"/{propertyId}"})
+    public PropertyDetails getpropretyDetails(@PathVariable int propertyId){
+
+      return   propertyDetailsService.showpropertydetails(propertyId);
+
+    }
+
+    @PostMapping({"/{propertyId}"})
     public PropertyDetails addPropertyDetails(@RequestBody PropertyDetails propertyDetails, @PathVariable int propertyId) {
         return propertyDetailsService.addPropertyDetails(propertyDetails,propertyId);
+    }
+
+    @DeleteMapping({"/{propertyId}"})
+    public PropertyDetails addPropertyDetails(@PathVariable int propertyId) {
+        return propertyDetailsService.deleteProprety(propertyId);
     }
 
     // Add other propertyDetails-related endpoints as needed

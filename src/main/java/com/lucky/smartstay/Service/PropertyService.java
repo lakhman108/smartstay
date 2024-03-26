@@ -68,10 +68,12 @@ public class PropertyService {
 
     public Property deleteProperty(Integer propertyIndex, Integer userId) {
         Optional<User> userOptional = userRepository.findById(userId);
+        if(userOptional.isPresent())
+        System.out.println(userOptional.get());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             List<Property> properties = user.getProperties();
-//            System.out.println("Property Index: " +properties);
+            System.out.println("Property Index: " +properties);
 
             if (propertyIndex >= 0 && propertyIndex < properties.size()) {
                 Property property = properties.get(propertyIndex);

@@ -36,4 +36,8 @@ public class Property {
     @JoinColumn(name="user_id")
     private User user;
 
+    @Override
+    public String toString() {
+        return "Property{id=" + id + ", name='" + property_name + "', user=" + (user == null ? "null" : "User(" + user.getId() + ")") + "}";
+    }
 }
