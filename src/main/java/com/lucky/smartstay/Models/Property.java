@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Data
 @Entity
 @Getter
@@ -16,7 +13,7 @@ import java.util.Set;
 @Table(name = "property")
 public class Property {
     @Id
-            @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
 
@@ -30,11 +27,10 @@ public class Property {
 
     String status;
 
-    @ManyToOne
-    User user;
 
-    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+
     private PropertyDetails propertyDetails;
 
 }

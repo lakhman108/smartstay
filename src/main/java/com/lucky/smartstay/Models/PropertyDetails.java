@@ -1,12 +1,12 @@
 package com.lucky.smartstay.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
-
 
 
 @Data
@@ -36,7 +36,5 @@ public class PropertyDetails {
         maid,
         laundry
     }
-    @JsonIgnore
-    @OneToOne(mappedBy = "propertyDetails")
-    private Property property;
+
 }
