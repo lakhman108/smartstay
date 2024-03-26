@@ -1,5 +1,6 @@
 package com.lucky.smartstay.Service;
 
+import com.lucky.smartstay.Controllers.UserController;
 import com.lucky.smartstay.Models.User;
 import com.lucky.smartstay.Models.UserDto;
 import com.lucky.smartstay.Repo.Userrepo;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -42,6 +44,19 @@ public class UserService {
         }
 
         return userDtos;
+    }
+
+    public List<UserDto> findAll() {
+        return userRepository.findAllAsDto();
+
+    }
+
+    public User deleteuser(Integer userId) {
+        
+
+         userRepository.deleteById(userId);
+
+            return null;
     }
     // Add other user-related methods as needed
 }

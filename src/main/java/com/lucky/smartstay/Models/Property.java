@@ -1,6 +1,5 @@
 package com.lucky.smartstay.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,5 +31,9 @@ public class Property {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 
     private PropertyDetails propertyDetails;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
 }

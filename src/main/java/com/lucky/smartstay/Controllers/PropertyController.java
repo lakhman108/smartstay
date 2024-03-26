@@ -15,17 +15,33 @@ public class PropertyController {
     @Autowired
     private PropertyService propertyService;
 
+
+    @GetMapping()
+    public List<Property> getAllProperties() {
+
+        int userId = 1;
+        return propertyService.getAllProperties(userId);
+    }
+    @GetMapping("/{n_th_property}")
+    public Property getSpecificProprety(@PathVariable int n_th_property) {
+        int UserId = 1;
+        return propertyService.getNthProprety(n_th_property,UserId);
+    }
     @PostMapping("/{userId}")
     public Property addProperty(@RequestBody Property property, @PathVariable int userId) {
-        System.out.println("\n\n\n\n\n\n"+property);
-        System.out.println("\n\n\n\n\n\n"+userId);
+
         return propertyService.addProperty(property, userId);
     }
 
-    @GetMapping
-    public List<Property> getAllProperties() {
-        return propertyService.getAllProperties();
+    @DeleteMapping("/{propertyId}/{userId}")
+    public Property deleteProperty(@PathVariable int propertyId, @PathVariable int userId) {
+        System.out.println("Property Id: " + propertyId);
+        System.out.println("User Id: " + userId);
+
+        return propertyService.deleteProperty(propertyId, userId);
     }
+
+
 
     // Add other property-related endpoints as needed
 }

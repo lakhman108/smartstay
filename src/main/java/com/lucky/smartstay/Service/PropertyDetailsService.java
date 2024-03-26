@@ -1,4 +1,4 @@
-package com.lucky.smartstay.Services;
+package com.lucky.smartstay.Service;
 
 import com.lucky.smartstay.Models.Property;
 import com.lucky.smartstay.Models.PropertyDetails;

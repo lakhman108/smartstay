@@ -2,7 +2,8 @@ package com.lucky.smartstay.Controllers;
 
 import com.lucky.smartstay.Models.PropertyDetails;
 
-import com.lucky.smartstay.Services.PropertyDetailsService;
+
+import com.lucky.smartstay.Service.PropertyDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

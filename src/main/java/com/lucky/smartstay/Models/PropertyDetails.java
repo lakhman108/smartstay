@@ -16,6 +16,7 @@ import java.util.Set;
 public class PropertyDetails {
     @Id
     @Column(name = "propertyDetails_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
 
     int id;
 

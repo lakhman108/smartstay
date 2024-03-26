@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
+
 public class UserDto {
     private int id;
     private String firstName;
@@ -17,4 +17,21 @@ public class UserDto {
     private String phoneNo;
     private Role role;
     private List<Property> properties;
+
+    public UserDto() {
+    }
+
+    public UserDto(int id, String firstName, String lastName, String email, String phoneNo, Role role, List<Property> properties) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.role = role;
+        this.properties = properties;
+    }
+// Constructor matching the fields
+
+
+    // Getters and setters
 }
