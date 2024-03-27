@@ -7,7 +7,9 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -49,11 +51,26 @@ public class User {
     @JsonIgnore
     private List<Property> properties = new ArrayList<>();
 
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(
+            name = "user_property",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "property_id")
+    )
+    private Set<Property> bookmarks=new HashSet<>();
+
     @Override
     public String toString() {
         return "User{id=" + id + ", name='" + firstName + lastName + " "+ "', properties=" + properties.stream().map(p -> "Property(" + p.getId() + ")").collect(Collectors.joining(", ")) + "}";
     }
+    public void bookProperty(Property property){
+        bookmarks.add(property);
+    }
 
+    public void debookProperty(Property property){
+        bookmarks.remove(property);
+    }
 
 
 }
