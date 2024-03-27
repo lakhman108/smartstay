@@ -6,6 +6,7 @@ import com.lucky.smartstay.Models.UserDto;
 import com.lucky.smartstay.Repo.Userrepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,7 +20,11 @@ public class UserService {
     private Userrepo userRepository;
 
     public User addUser(User user) {
-        return userRepository.save(user);
+
+        String encodedpassword=new BCryptPasswordEncoder(12).encode(user.getPassword());
+        user.setPassword(encodedpassword);
+        return
+                userRepository.save(user);
     }
 
     public List<User> getAllUsers() {
