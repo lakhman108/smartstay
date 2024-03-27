@@ -85,6 +85,12 @@ public class PropertyService {
         return null;
     }
 
+    public int getAuthorizedUserId(String username) {
+
+        User user=userRepository.findByLastName(username);
+        return user.getId();
+    }
+
 
     // Add other property-related methods as needed
 }

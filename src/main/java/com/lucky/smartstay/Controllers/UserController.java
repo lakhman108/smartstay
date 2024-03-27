@@ -68,4 +68,7 @@ public class UserController {
 }
 
     // Add other user-related endpoints as needed
+    //bookmarks get
+    //bookmarks post ,edit ,delete
+
 }
