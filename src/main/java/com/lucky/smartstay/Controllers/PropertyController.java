@@ -50,7 +50,6 @@ public class PropertyController {
     public Property addProperty(@RequestBody Property property) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Get the logged-in user's username
         String username = authentication.getName();
         System.out.println(username);
 

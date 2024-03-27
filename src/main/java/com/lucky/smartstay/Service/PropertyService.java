@@ -1,5 +1,6 @@
 package com.lucky.smartstay.Service;
 
+import com.lucky.smartstay.Exceptions.UserNotFoundException;
 import com.lucky.smartstay.Models.Property;
 import com.lucky.smartstay.Models.PropertyDetails;
 import com.lucky.smartstay.Models.User;
@@ -8,7 +9,9 @@ import com.lucky.smartstay.Repo.PropertyRepo;
 
 import com.lucky.smartstay.Repo.Userrepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Iterator;
 import java.util.List;
@@ -33,20 +36,24 @@ public class PropertyService {
         return user.map(User::getProperties).orElse(null);
     }
 
-    public Property getNthProprety(int nThProperty,int userId) {
+    public Property getNthProprety(int nThProperty,int userId)  {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             User currentUser = user.get();
             List<Property> properties = currentUser.getProperties();
             if (nThProperty >= 0 && nThProperty < properties.size()) {
                 return properties.get(nThProperty);
+            } else {
+                // Throw custom exception when property index is out of bounds
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property not found");
             }
+        } else {
+            // Throw custom exception when user is not found
+            throw new UserNotFoundException("User with id " + userId + " not found");
         }
-        return null;
     }
 
-    public Property addProperty(Property property, int userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public Property addProperty(Property property, int userId) {Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
 
@@ -61,39 +68,56 @@ public class PropertyService {
 
             return propertyRepository.save(property);
         } else {
-            // Handle case when user is not found
-            return null;
+            // Throw custom exception when user is not found
+            throw new UserNotFoundException("User with id " + userId + " not found");
         }
     }
 
     public Property deleteProperty(Integer propertyIndex, Integer userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if(userOptional.isPresent())
-        System.out.println(userOptional.get());
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            List<Property> properties = user.getProperties();
-            System.out.println("Property Index: " +properties);
+        try {
+            Optional<User> userOptional = userRepository.findById(userId);
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                List<Property> properties = user.getProperties();
 
-            if (propertyIndex >= 0 && propertyIndex < properties.size()) {
-                Property property = properties.get(propertyIndex);
-                properties.remove(propertyIndex.intValue());
-                propertyRepository.delete(property);
-                userRepository.save(user); // Save the user after removing the property
+                if (propertyIndex >= 0 && propertyIndex < properties.size()) {
+                    Property property = properties.get(propertyIndex);
+                    properties.remove(propertyIndex.intValue());
+                    propertyRepository.delete(property);
+                    userRepository.save(user); // Save the user after removing the property
+                    return property;
+                } else {
+                    throw new IllegalArgumentException("Invalid property index: " + propertyIndex);
+                }
+            } else {
+                throw new UserNotFoundException("User with id " + userId + " not found");
             }
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid property index: " + propertyIndex, e);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException("User with id " + userId + " not found", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete property", e);
         }
-        return null;
     }
 
 
 
     public int getAuthorizedUserId(String username) {
 
-        User user=userRepository.findByLastName(username);
-        return user.getId();
+        try {
+            User user = userRepository.findByLastName(username);
+            if (user != null) {
+                return user.getId();
+            } else {
+                throw new UserNotFoundException("User with username " + username + " not found");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve authorized user ID for username: " + username, e);
+        }
     }
 
-    
+
     public List<Property> getAllPro(){
         return propertyRepository.findAll();
     }

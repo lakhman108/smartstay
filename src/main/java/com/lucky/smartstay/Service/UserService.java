@@ -1,11 +1,13 @@
 package com.lucky.smartstay.Service;
 
 import com.lucky.smartstay.Controllers.UserController;
+import com.lucky.smartstay.Exceptions.UserNotFoundException;
 import com.lucky.smartstay.Models.User;
 import com.lucky.smartstay.Models.UserDto;
 import com.lucky.smartstay.Repo.Userrepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +25,7 @@ public class UserService {
 
         String encodedpassword=new BCryptPasswordEncoder(12).encode(user.getPassword());
         user.setPassword(encodedpassword);
-        return
-                userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public List<User> getAllUsers() {
@@ -57,11 +58,18 @@ public class UserService {
     }
 
     public User deleteuser(Integer userId) {
-        
 
-         userRepository.deleteById(userId);
 
-            return null;
+        try {
+            User user=userRepository.getById(userId);
+            userRepository.deleteById(userId);
+            return user;
+        } catch (EmptyResultDataAccessException e) {
+            throw new UserNotFoundException("User with id " + userId + " not found");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete user with id " + userId, e);
+        }
+
     }
     // Add other user-related methods as needed
 }

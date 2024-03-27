@@ -6,7 +6,9 @@ import com.lucky.smartstay.Models.PropertyDetails;
 import com.lucky.smartstay.Repo.PropertyDetailsRepository;
 import com.lucky.smartstay.Repo.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -26,8 +28,11 @@ public class PropertyDetailsService {
     public PropertyDetails showpropertydetails(int propertyId){
 
         Optional<Property> property=propertyRepo.findById(propertyId);
-
-        return property.get().getPropertyDetails();
+        if(property.isPresent())
+            return property.get().getPropertyDetails();
+        else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property with ID " + propertyId + " not found");
+        }
     }
     public PropertyDetails addPropertyDetails(PropertyDetails propertyDetails, int propertyId) {
         Optional<Property> property = propertyRepo.findById(propertyId);
@@ -35,7 +40,6 @@ public class PropertyDetailsService {
         if(property.isPresent()) {
             property.get().setPropertyDetails(propertyDetails);
             Property updatedProperty = propertyRepo.save(property.get());
-
             return updatedProperty.getPropertyDetails();
         }
         return new PropertyDetails();
@@ -45,7 +49,7 @@ public class PropertyDetailsService {
     public PropertyDetails deleteProprety(int propertyId){
 
         Optional<Property> property=propertyRepo.findById(propertyId);
-    property.get().setPropertyDetails(null);
+        property.get().setPropertyDetails(null);
         return property.get().getPropertyDetails();
     }
 
