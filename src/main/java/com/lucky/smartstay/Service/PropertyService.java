@@ -85,12 +85,20 @@ public class PropertyService {
         return null;
     }
 
+
+
     public int getAuthorizedUserId(String username) {
 
         User user=userRepository.findByLastName(username);
         return user.getId();
     }
 
-
+    
+    public List<Property> getAllPro(){
+        return propertyRepository.findAll();
+    }
+    public Optional<Property> getThisPro(int id){
+        return propertyRepository.findById(id);
+    }
     // Add other property-related methods as needed
 }
