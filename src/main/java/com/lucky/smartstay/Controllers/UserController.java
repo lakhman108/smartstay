@@ -30,7 +30,7 @@ public class UserController {
     private Userrepo userrepo;
     @Autowired
     PropertyService propertyService;
-    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('DEALER')")
     @PostMapping
     public User addUser(@RequestBody User user) {
 
@@ -38,14 +38,14 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER','DEALER')")
     @GetMapping()
     public List<User> listUsers() {
 
         return userService.getAllUsers();
     }
 
-    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER','DEALER')")
     @GetMapping({"/all"})
     public List<UserDto> getAllUsers() {
         List<UserDto> userDtos = userrepo.findAllAsDto();
