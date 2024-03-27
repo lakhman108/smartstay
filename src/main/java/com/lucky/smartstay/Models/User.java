@@ -1,0 +1,59 @@
+package com.lucky.smartstay.Models;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Getter
+@Setter
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Column(nullable = false, unique = true, length = 100)
+    private String firstName;
+
+    @Column(nullable = true, length = 100)
+    private String lastName;
+
+
+
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false, unique = true, length = 10)
+    private String phoneNo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+    @Column(nullable = true,length = 100)
+    private String password;
+
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Property> properties = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "User{id=" + id + ", name='" + firstName + lastName + " "+ "', properties=" + properties.stream().map(p -> "Property(" + p.getId() + ")").collect(Collectors.joining(", ")) + "}";
+    }
+
+
+
+}
