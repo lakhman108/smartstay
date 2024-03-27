@@ -1,5 +1,7 @@
 package com.lucky.smartstay.Controllers;
 
+import com.lucky.smartstay.Exceptions.ResourceNotFoundException;
+import com.lucky.smartstay.Exceptions.UserNotFoundException;
 import com.lucky.smartstay.Models.Property;
 import com.lucky.smartstay.Models.Role;
 import com.lucky.smartstay.Models.User;
@@ -19,6 +21,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+
+
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -30,7 +35,7 @@ public class UserController {
     private Userrepo userrepo;
     @Autowired
     PropertyService propertyService;
-    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER','DEALER','ADMIN')")
     @PostMapping
     public User addUser(@RequestBody User user) {
 
@@ -38,14 +43,14 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER','DEALER','ADMIN')")
     @GetMapping()
     public List<User> listUsers() {
 
         return userService.getAllUsers();
     }
 
-    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER','DEALER','ADMIN')")
     @GetMapping({"/all"})
     public List<UserDto> getAllUsers() {
         List<UserDto> userDtos = userrepo.findAllAsDto();
@@ -66,14 +71,14 @@ public class UserController {
         return userDtos;
     }
 
-    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{User_id}")
     public User deleteuser(@PathVariable int User_id){
         return userService.deleteuser(User_id);
 
     }
     @PreAuthorize("hasAnyRole('CUSTOMER')")
-    @PostMapping("/book/{id}")
+    @PostMapping("/bookmark/{id}")
     public Property addBookmark(@PathVariable int id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -95,16 +100,16 @@ public class UserController {
                 return pro;
             }
             else{
-                return null;
+                throw new ResourceNotFoundException("Property with id " + id + " not found");
             }
         } else {
-            return null;
+            throw new UserNotFoundException("User with id " + userId + " not found");
         }
 
     }
     //bookmarks get
     @PreAuthorize("hasAnyRole('CUSTOMER')")
-    @GetMapping("/book")
+    @GetMapping("/bookmark")
     Set<Property> getBookmarks(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -119,13 +124,13 @@ public class UserController {
             User user = optionalUser.get();
             return user.getBookmarks();
         } else {
-            return null;
+            throw new UserNotFoundException("User with id " + userId + " not found");
         }
     }
 
     //bookmarks post ,edit ,delete
     @PreAuthorize("hasAnyRole('CUSTOMER')")
-    @DeleteMapping("/book/{book_id}")
+    @DeleteMapping("/bookmark/{book_id}")
     public Property deleteBookmark(@PathVariable int book_id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

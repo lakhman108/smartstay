@@ -16,15 +16,20 @@ public class Property {
     int id;
 
 
-    String property_name;
+    @Column(unique = true) // Ensures property_name is unique
+    private String property_name;
 
-    String owner_name;
 
-    String location;
+    private String owner_name;
 
-    String type;
 
-    String status;
+    private String location;
+
+
+    private String type;
+
+
+    private String status;
 
 
 
