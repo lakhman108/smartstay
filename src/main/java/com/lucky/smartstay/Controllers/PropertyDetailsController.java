@@ -5,6 +5,7 @@ import com.lucky.smartstay.Models.PropertyDetails;
 
 import com.lucky.smartstay.Service.PropertyDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,19 +14,19 @@ public class PropertyDetailsController {
 
     @Autowired
     private PropertyDetailsService propertyDetailsService;
-
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     @GetMapping({"/{propertyId}"})
     public PropertyDetails getpropretyDetails(@PathVariable int propertyId){
 
       return   propertyDetailsService.showpropertydetails(propertyId);
 
     }
-
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     @PostMapping({"/{propertyId}"})
     public PropertyDetails addPropertyDetails(@RequestBody PropertyDetails propertyDetails, @PathVariable int propertyId) {
         return propertyDetailsService.addPropertyDetails(propertyDetails,propertyId);
     }
-
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     @DeleteMapping({"/{propertyId}"})
     public PropertyDetails addPropertyDetails(@PathVariable int propertyId) {
         return propertyDetailsService.deleteProprety(propertyId);

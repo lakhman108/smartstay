@@ -9,6 +9,7 @@ import com.lucky.smartstay.Repo.Userrepo;
 import com.lucky.smartstay.Service.UserService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,17 +23,23 @@ public class UserController {
 
     @Autowired
     private Userrepo userrepo;
+
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     @PostMapping
     public User addUser(@RequestBody User user) {
+
         return userService.addUser(user);
     }
 
+
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     @GetMapping()
     public List<User> listUsers() {
 
         return userService.getAllUsers();
     }
 
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     @GetMapping({"/all"})
     public List<UserDto> getAllUsers() {
         List<UserDto> userDtos = userrepo.findAllAsDto();
@@ -53,6 +60,7 @@ public class UserController {
         return userDtos;
     }
 
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     @DeleteMapping("/{User_id}")
     public User deleteuser(@PathVariable int User_id){
         return userService.deleteuser(User_id);
