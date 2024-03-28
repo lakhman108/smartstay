@@ -18,6 +18,23 @@ public class PropertyController {
     @Autowired
     private PropertyService propertyService;
 
+
+
+    @PreAuthorize("hasAnyRole('DEALER')")
+    @PostMapping("")
+    public Property addProperty(@RequestBody Property property) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String username = authentication.getName();
+        System.out.println(username);
+
+
+        int userId = propertyService.getAuthorizedUserId(username);
+        System.out.println(userId);
+//        return null;
+        return propertyService.addProperty(property, userId);
+    }
+
     @PreAuthorize("hasAnyRole('DEALER')")
     @GetMapping()
     public List<Property> getAllProperties() {
@@ -44,19 +61,6 @@ public class PropertyController {
 
         int userId = propertyService.getAuthorizedUserId(username);
         return propertyService.getNthProprety(n_th_property,userId);
-    }
-    @PreAuthorize("hasAnyRole('DEALER')")
-    @PostMapping("")
-    public Property addProperty(@RequestBody Property property) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        String username = authentication.getName();
-        System.out.println(username);
-
-
-        int userId = propertyService.getAuthorizedUserId(username);
-        System.out.println(userId);
-        return propertyService.addProperty(property, userId);
     }
 
     @PreAuthorize("hasAnyRole('DEALER')")

@@ -28,6 +28,8 @@ import java.util.Set;
 @RequestMapping("/api/users")
 public class UserController {
 
+
+
     @Autowired
     private UserService userService;
 
@@ -35,7 +37,7 @@ public class UserController {
     private Userrepo userrepo;
     @Autowired
     PropertyService propertyService;
-    @PreAuthorize("hasAnyRole('CUSTOMER','DEALER','ADMIN')")
+
     @PostMapping
     public User addUser(@RequestBody User user) {
 
@@ -43,14 +45,14 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasAnyRole('CUSTOMER','DEALER','ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping()
     public List<User> listUsers() {
 
         return userService.getAllUsers();
     }
 
-    @PreAuthorize("hasAnyRole('CUSTOMER','DEALER','ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping({"/all"})
     public List<UserDto> getAllUsers() {
         List<UserDto> userDtos = userrepo.findAllAsDto();
@@ -71,10 +73,27 @@ public class UserController {
         return userDtos;
     }
 
+
+
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{User_id}")
     public User deleteuser(@PathVariable int User_id){
         return userService.deleteuser(User_id);
+
+    }
+
+    @PreAuthorize("hasAnyRole('CUSTOMER','DEALER')")
+    @DeleteMapping("")
+    public User deletItself(){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Get the logged-in user's username
+        String username = authentication.getName();
+        System.out.println(username);
+
+        int userId = propertyService.getAuthorizedUserId(username);
+        return userService.deleteuser(userId);
 
     }
     @PreAuthorize("hasAnyRole('CUSTOMER')")

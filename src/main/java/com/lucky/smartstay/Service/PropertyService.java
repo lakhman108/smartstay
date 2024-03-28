@@ -106,7 +106,7 @@ public class PropertyService {
     public int getAuthorizedUserId(String username) {
 
         try {
-            User user = userRepository.findByLastName(username);
+           User user = userRepository.findByUsername(username);
             if (user != null) {
                 return user.getId();
             } else {

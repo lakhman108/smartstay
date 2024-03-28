@@ -25,13 +25,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String firstName;
 
-    @Column(nullable = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String lastName;
 
-
+    @Column(nullable = false, unique = true, length = 100)
+    private String username;
 
 
     @Column(nullable = false, unique = true)
@@ -43,7 +44,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
-    @Column(nullable = true,length = 100)
+    @Column(nullable = false,length = 100)
     private String password;
 
 

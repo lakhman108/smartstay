@@ -20,7 +20,7 @@ public class PropertyDetailsController {
     private PropertyDetailsService propertyDetailsService;
     @Autowired
     private PropertyService propertyService;
-    @PreAuthorize("hasAnyRole('CUSTOMER','DEALER','ADMIN')")
+    @PreAuthorize("hasAnyRole('DEALER','ADMIN','CUSTOMER')")
     @GetMapping({""})
     public List<Property> getAllProperties(){
         return propertyService.getAllPro();

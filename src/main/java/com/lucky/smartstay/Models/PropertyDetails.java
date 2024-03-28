@@ -20,10 +20,12 @@ public class PropertyDetails {
 
     int id;
 
+    @Column(nullable = false,unique = false)
     int bedrooms;
 
+    @Column(nullable = false,unique = false)
     int bathrooms;
-
+    @Column(nullable = false,unique = false)
     int price;
 
     @ElementCollection

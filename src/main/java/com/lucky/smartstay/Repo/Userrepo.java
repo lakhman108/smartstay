@@ -18,6 +18,6 @@ public interface Userrepo extends JpaRepository<User, Integer> {
     List<UserDto> findAllAsDto();
 
 
-    User findByLastName(String lastName);
+    User findByUsername(String lastName);
 
 }

@@ -49,8 +49,17 @@ public class PropertyDetailsService {
     public PropertyDetails deleteProprety(int propertyId){
 
         Optional<Property> property=propertyRepo.findById(propertyId);
-        property.get().setPropertyDetails(null);
-        return property.get().getPropertyDetails();
+        if(property.isPresent()) {
+            System.out.println(property.get().getPropertyDetails());
+            property.get().setPropertyDetails(null);
+            propertyRepo.save(property.get());
+            return null;
+        }
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property with ID " + propertyId + " not found");
+
+
+
     }
 
 }
