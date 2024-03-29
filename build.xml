@@ -1,0 +1,22 @@
+<project name="MyProject" default="build" basedir=".">
+    <description>
+        simple example build file
+    </description>
+
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+
+    <target name="build">
+        <!-- Compile the java code from ${src} into ${build} -->
+        <javac srcdir="${src}" destdir="${build}"/>
+    </target>
+    <target name="jar" depends="build">
+    <mkdir dir="dist"/>
+    <jar destfile="dist/MyProject.jar" basedir="build">
+        <manifest>
+            <attribute name="Main-Class" value="com.lucky.smartstay.Main"/>
+        </manifest>
+    </jar>
+</target>
+</project>
