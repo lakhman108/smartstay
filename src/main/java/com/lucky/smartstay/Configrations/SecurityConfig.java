@@ -1,6 +1,6 @@
 package com.lucky.smartstay.Configrations;
 
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -25,14 +25,11 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authProvider() {
-        DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         return provider;
     }
-
-
-
 
 
     @Bean

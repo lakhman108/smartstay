@@ -1,6 +1,5 @@
 package com.lucky.smartstay.Exceptions;
 
-import com.lucky.smartstay.Exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +17,7 @@ public class GlobalExceptionHandler {
         response.setStatus(HttpStatus.NOT_FOUND.value());
         return ex.getMessage();
     }
+
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody

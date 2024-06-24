@@ -22,7 +22,9 @@ public class UserService {
     private Userrepo userRepository;
 
     public User addUser(User user) {
-
+        System.out.println("\n\n\n\n\n\n");
+        System.out.println(user);
+        System.out.println("\n\n\n\n\n\n");
 
         String encodedpassword=new BCryptPasswordEncoder(12).encode(user.getPassword());
         user.setPassword(encodedpassword);
@@ -62,9 +64,11 @@ public class UserService {
 
 
         try {
+
             User user=userRepository.getById(userId);
-            userRepository.deleteById(userId);
-            return user;
+
+            userRepository.delete(user);
+            return null;
         } catch (EmptyResultDataAccessException e) {
             throw new UserNotFoundException("User with id " + userId + " not found");
         } catch (Exception e) {

@@ -6,14 +6,12 @@ import com.lucky.smartstay.Models.PropertyDetails;
 import com.lucky.smartstay.Models.User;
 import com.lucky.smartstay.Repo.PropertyDetailsRepository;
 import com.lucky.smartstay.Repo.PropertyRepo;
-
 import com.lucky.smartstay.Repo.Userrepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +34,7 @@ public class PropertyService {
         return user.map(User::getProperties).orElse(null);
     }
 
-    public Property getNthProprety(int nThProperty,int userId)  {
+    public Property getNthProprety(int nThProperty, int userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             User currentUser = user.get();
@@ -53,7 +51,8 @@ public class PropertyService {
         }
     }
 
-    public Property addProperty(Property property, int userId) {Optional<User> userOptional = userRepository.findById(userId);
+    public Property addProperty(Property property, int userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
 
@@ -102,11 +101,10 @@ public class PropertyService {
     }
 
 
-
     public int getAuthorizedUserId(String username) {
 
         try {
-           User user = userRepository.findByUsername(username);
+            User user = userRepository.findByUsername(username);
             if (user != null) {
                 return user.getId();
             } else {
@@ -118,11 +116,16 @@ public class PropertyService {
     }
 
 
-    public List<Property> getAllPro(){
+    public List<Property> getAllPro() {
         return propertyRepository.findAll();
     }
-    public Optional<Property> getThisPro(int id){
+
+    public Optional<Property> getThisPro(int id) {
         return propertyRepository.findById(id);
+    }
+
+    public List<Property> allpropreties() {
+        return propertyRepository.findAll();
     }
     // Add other property-related methods as needed
 }

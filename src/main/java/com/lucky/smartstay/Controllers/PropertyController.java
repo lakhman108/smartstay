@@ -1,7 +1,6 @@
 package com.lucky.smartstay.Controllers;
 
 import com.lucky.smartstay.Models.Property;
-
 import com.lucky.smartstay.Service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +18,6 @@ public class PropertyController {
     private PropertyService propertyService;
 
 
-
     @PreAuthorize("hasAnyRole('DEALER')")
     @PostMapping("")
     public Property addProperty(@RequestBody Property property) {
@@ -35,6 +33,7 @@ public class PropertyController {
         return propertyService.addProperty(property, userId);
     }
 
+
     @PreAuthorize("hasAnyRole('DEALER')")
     @GetMapping()
     public List<Property> getAllProperties() {
@@ -49,6 +48,15 @@ public class PropertyController {
         int userId = propertyService.getAuthorizedUserId(username);
         return propertyService.getAllProperties(userId);
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','DEALER','CUSTOMER')")
+    @GetMapping("/all")
+    public List<Property> getAllPropertiesbyAdmin() {
+
+
+        return propertyService.allpropreties();
+    }
+
     @PreAuthorize("hasAnyRole('DEALER')")
     @GetMapping("/{n_th_property}")
     public Property getSpecificProprety(@PathVariable int n_th_property) {
@@ -60,7 +68,7 @@ public class PropertyController {
 
 
         int userId = propertyService.getAuthorizedUserId(username);
-        return propertyService.getNthProprety(n_th_property,userId);
+        return propertyService.getNthProprety(n_th_property, userId);
     }
 
     @PreAuthorize("hasAnyRole('DEALER')")
@@ -77,7 +85,6 @@ public class PropertyController {
 
         return propertyService.deleteProperty(propertyId, userId);
     }
-
 
 
     // Add other property-related endpoints as needed

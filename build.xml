@@ -9,14 +9,14 @@
 
     <target name="build">
         <!-- Compile the java code from ${src} into ${build} -->
-        <javac srcdir="${src}" destdir="${build}"/>
+        <javac srcdir="/Users/lakhman/Desktop/Telusko_spring/SmartStay/src" destdir="${build}"/>
     </target>
     <target name="jar" depends="build">
-    <mkdir dir="dist"/>
-    <jar destfile="dist/MyProject.jar" basedir="build">
-        <manifest>
-            <attribute name="Main-Class" value="com.lucky.smartstay.Main"/>
-        </manifest>
-    </jar>
-</target>
+        <mkdir dir="dist"/>
+        <jar destfile="dist/MyProject.jar" basedir="build">
+            <manifest>
+                <attribute name="Main-Class" value="com.lucky.smartstay.Main"/>
+            </manifest>
+        </jar>
+    </target>
 </project>

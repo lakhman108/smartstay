@@ -2,7 +2,6 @@ package com.lucky.smartstay.Service;
 
 import com.lucky.smartstay.Models.Property;
 import com.lucky.smartstay.Models.PropertyDetails;
-
 import com.lucky.smartstay.Repo.PropertyDetailsRepository;
 import com.lucky.smartstay.Repo.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +24,20 @@ public class PropertyDetailsService {
     private PropertyRepo propertyRepo;
 
 
-    public PropertyDetails showpropertydetails(int propertyId){
+    public PropertyDetails showpropertydetails(int propertyId) {
 
-        Optional<Property> property=propertyRepo.findById(propertyId);
-        if(property.isPresent())
+        Optional<Property> property = propertyRepo.findById(propertyId);
+        if (property.isPresent())
             return property.get().getPropertyDetails();
-        else{
+        else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property with ID " + propertyId + " not found");
         }
     }
+
     public PropertyDetails addPropertyDetails(PropertyDetails propertyDetails, int propertyId) {
         Optional<Property> property = propertyRepo.findById(propertyId);
 
-        if(property.isPresent()) {
+        if (property.isPresent()) {
             property.get().setPropertyDetails(propertyDetails);
             Property updatedProperty = propertyRepo.save(property.get());
             return updatedProperty.getPropertyDetails();
@@ -46,18 +46,16 @@ public class PropertyDetailsService {
     }
 
 
-    public PropertyDetails deleteProprety(int propertyId){
+    public PropertyDetails deleteProprety(int propertyId) {
 
-        Optional<Property> property=propertyRepo.findById(propertyId);
-        if(property.isPresent()) {
+        Optional<Property> property = propertyRepo.findById(propertyId);
+        if (property.isPresent()) {
             System.out.println(property.get().getPropertyDetails());
             property.get().setPropertyDetails(null);
             propertyRepo.save(property.get());
             return null;
-        }
-        else
+        } else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Property with ID " + propertyId + " not found");
-
 
 
     }

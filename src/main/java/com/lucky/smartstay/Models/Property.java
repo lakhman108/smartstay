@@ -19,18 +19,17 @@ public class Property {
     @Column(unique = true) // Ensures property_name is unique
     private String property_name;
 
-    @Column(unique = false,nullable = false,length = 100)
+    @Column(unique = false, nullable = false, length = 100)
     private String owner_name;
 
-    @Column(unique = false,nullable = false,length = 100)
+    @Column(unique = false, nullable = false, length = 100)
     private String location;
 
-    @Column(unique = false,nullable = false,length =20)
+    @Column(unique = false, nullable = false, length = 20)
     private String type;
 
-    @Column(unique = false,nullable = false,length =20)
+    @Column(unique = false, nullable = false, length = 20)
     private String status;
-
 
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -38,7 +37,7 @@ public class Property {
     private PropertyDetails propertyDetails;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Override
