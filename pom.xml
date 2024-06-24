@@ -98,6 +98,9 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+<mainClass>com.lucky.smartstay.SmartStayApplication</mainClass>
+
+
                 </configuration>
             </plugin>
         </plugins>
