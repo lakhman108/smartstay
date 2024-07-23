@@ -91,6 +91,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+
                 <configuration>
                     <excludes>
                         <exclude>
@@ -100,7 +101,7 @@
                     </excludes>
 <mainClass>com.lucky.smartstay.SmartStayApplication</mainClass>
 
-
+<executable>true</executable>
                 </configuration>
             </plugin>
         </plugins>
